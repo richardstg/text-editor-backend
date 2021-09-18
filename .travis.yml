@@ -5,7 +5,9 @@ node_js:
   - "8"
   - "7"
 
-sudo: false
+services: mongodb
+
+# sudo: false
 
 git:
   submodules: false
@@ -16,9 +18,9 @@ before_script:
 script:
   - npm test
 
-after_success:
-  - npm run report-coveralls
-  - npm run report-codecov
+# after_success:
+#   - npm run report-coveralls
+#   - npm run report-codecov
 
 notifications:
   webhooks:
