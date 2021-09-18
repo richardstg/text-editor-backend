@@ -22,7 +22,7 @@ const getAllTexts = async (req, res, next) => {
     return next(error);
   }
 
-  res.json(texts.map((text) => text.toObject({ getters: true })));
+  res.status(200).json(texts.map((text) => text.toObject({ getters: true })));
 };
 
 const getText = async (req, res, next) => {
@@ -45,7 +45,7 @@ const getText = async (req, res, next) => {
     return next(error);
   }
 
-  res.json(text.toObject({ getters: true }));
+  res.status(200).json(text.toObject({ getters: true }));
 };
 
 const addText = async (req, res, next) => {
@@ -109,7 +109,7 @@ const updateText = async (req, res, next) => {
     return next(error);
   }
 
-  res.json(text.toObject({ getters: true }));
+  res.status(200).json(text.toObject({ getters: true }));
 };
 
 exports.getAllTexts = getAllTexts;
