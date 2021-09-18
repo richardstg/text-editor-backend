@@ -7,7 +7,10 @@ const textRoutes = require("./routes/text-routes");
 const HttpError = require("./models/http-error");
 
 if (process.env.NODE_ENV === "test") {
-  require("dotenv").config();
+  const dotenv = require("dotenv");
+  if (dotenv) {
+    dotenv.config();
+  }
 }
 
 const app = express();
