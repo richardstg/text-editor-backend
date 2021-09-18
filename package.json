@@ -20,6 +20,7 @@
     "codecov": "^3.8.3",
     "cors": "^2.8.5",
     "coveralls": "^3.1.1",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-validator": "^6.2.0",
     "mongoose": "^5.7.8",

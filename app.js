@@ -3,10 +3,12 @@ const morgan = require("morgan");
 const cors = require("cors");
 const mongoose = require("mongoose");
 
-const config = require("./config.json");
-
 const textRoutes = require("./routes/text-routes");
 const HttpError = require("./models/http-error");
+
+if (process.env.NODE_ENV === "test") {
+  require("dotenv").config();
+}
 
 const app = express();
 
@@ -34,12 +36,10 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || "An unknown error occurred!" });
 });
 
-const db =
-  process.env.NODE_ENV === "test" ? "test-text-editor" : config.DB_NAME;
-
+console.log("!!!!!!!!!!!!!!!!!!!!!!!: " + process.env.DB_USER);
 mongoose
   .connect(
-    `mongodb://${config.DB_USER}:${config.DB_PASSWORD}@cluster0-shard-00-00.ipfwf.mongodb.net:27017,cluster0-shard-00-01.ipfwf.mongodb.net:27017,cluster0-shard-00-02.ipfwf.mongodb.net:27017/${db}?ssl=true&replicaSet=atlas-fxcg7c-shard-0&authSource=admin&retryWrites=true&w=majority`,
+    `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0-shard-00-00.ipfwf.mongodb.net:27017,cluster0-shard-00-01.ipfwf.mongodb.net:27017,cluster0-shard-00-02.ipfwf.mongodb.net:27017/${process.env.DB_NAME}?ssl=true&replicaSet=atlas-fxcg7c-shard-0&authSource=admin&retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }
   )
   .then(() => {
