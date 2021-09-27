@@ -15,25 +15,6 @@ if (process.env.NODE_ENV === "test") {
 
 const app = express();
 
-const httpServer = require("http").createServer(app);
-const io = require("socket.io")(httpServer, {
-  cors: {
-    // origin: "http://localhost:3000",
-    origin: "*",
-    methods: ["GET", "POST"],
-  },
-});
-global._io = io;
-
-io.sockets.on("connection", function (socket) {
-  console.log("a user is connected.");
-
-  // socket.on("text update", (updatedText) => {
-  //   console.log(updatedText);
-  //   io.emit("text updated", updatedText);
-  // });
-});
-
 app.use(cors());
 app.use(express.json());
 
@@ -64,15 +45,10 @@ mongoose
     { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }
   )
   .then(() => {
-    httpServer.listen(process.env.PORT || 1337, function () {
-      console.log(
-        "Socket server is listening on port " + (process.env.PORT || 1337)
-      );
-    });
+    app.listen(process.env.PORT || 1337);
   })
   .catch((err) => {
     console.log(err);
   });
 
-exports.app = app;
-exports.io = io;
+module.exports = app;

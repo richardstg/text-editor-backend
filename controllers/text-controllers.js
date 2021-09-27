@@ -1,6 +1,7 @@
-const { response } = require("express");
+// const { response } = require("express");
 const HttpError = require("../models/http-error");
 const Text = require("../models/text");
+// const { io } = require("../app");
 
 const getAllTexts = async (req, res, next) => {
   let texts;
@@ -109,6 +110,9 @@ const updateText = async (req, res, next) => {
     return next(error);
   }
 
+  // console.log(global._io);
+  console.log("updating");
+  global._io.emit("text updated", text.toObject({ getters: true }));
   res.status(200).json(text.toObject({ getters: true }));
 };
 

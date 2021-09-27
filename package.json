@@ -26,6 +26,7 @@
     "mongoose": "^5.7.8",
     "morgan": "^1.10.0",
     "nodemon": "^1.19.4",
+    "socket.io": "^4.2.0",
     "uuid": "^3.3.3"
   },
   "devDependencies": {
@@ -34,5 +35,9 @@
     "mocha": "^9.1.1",
     "nodemon": "^1.19.4",
     "nyc": "^15.1.0"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.3",
+    "utf-8-validate": "^5.0.5"
   }
 }
