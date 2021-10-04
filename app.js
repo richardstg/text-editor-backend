@@ -4,6 +4,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 const textRoutes = require("./routes/text-routes");
+const authRoutes = require("./routes/auth-routes");
+
 const HttpError = require("./models/http-error");
 
 if (process.env.NODE_ENV === "test") {
@@ -43,6 +45,7 @@ if (process.env.NODE_ENV !== "test") {
   app.use(morgan("combined")); // 'combined' outputs the Apache style LOGs
 }
 
+app.use("/auth", authRoutes);
 app.use("/", textRoutes);
 
 app.use((req, res, next) => {

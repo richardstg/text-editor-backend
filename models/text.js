@@ -7,8 +7,7 @@ const textSchema = new Schema({
   name: { type: String, required: true },
   content: { type: String, required: false },
   created: { type: Date, required: true, trim: true },
+  creator: { type: mongoose.Types.ObjectId, required: true, ref: "User" },
 });
-
-// textSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model("Text", textSchema);

@@ -2,6 +2,7 @@
   "env": {
     "DB_USER": "richard",
     "DB_PASSWORD": "1234",
-    "DB_NAME": "text-editor"
+    "DB_NAME": "text-editor",
+    "JWT_KEY": "super_secret"
   }
 }
