@@ -10,7 +10,8 @@ const checkAuth = require("./middleware/check-auth");
 // const UserType = require("./graphql/user.js");
 
 // GraphQL setup
-const visual = true;
+// const visual = true;
+const visual = false;
 const { graphqlHTTP } = require("express-graphql");
 const { GraphQLSchema } = require("graphql");
 const { RootQueryType, RootMutationType } = require("./graphql/root.js");
