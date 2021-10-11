@@ -2,25 +2,12 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const HttpError = require("./models/http-error");
+
 const textRoutes = require("./routes/text-routes");
 const authRoutes = require("./routes/auth-routes");
 
-const checkAuth = require("./middleware/check-auth");
-// const UserType = require("./graphql/user.js");
+const HttpError = require("./models/http-error");
 
-// GraphQL setup
-const visual = true;
-const { graphqlHTTP } = require("express-graphql");
-const { GraphQLSchema } = require("graphql");
-const { RootQueryType, RootMutationType } = require("./graphql/root.js");
-
-const schema = new GraphQLSchema({
-  query: RootQueryType,
-  mutation: RootMutationType,
-});
-
-// Check if test
 if (process.env.NODE_ENV === "test") {
   const dotenv = require("dotenv");
   if (dotenv) {
@@ -42,6 +29,11 @@ global._io = io;
 
 io.sockets.on("connection", function (socket) {
   console.log("a user is connected.");
+
+  // socket.on("text update", (updatedText) => {
+  //   console.log(updatedText);
+  //   io.emit("text updated", updatedText);
+  // });
 });
 
 app.use(cors());
@@ -54,14 +46,6 @@ if (process.env.NODE_ENV !== "test") {
 }
 
 app.use("/auth", authRoutes);
-// app.use(checkAuth);
-app.use(
-  "/graphql",
-  graphqlHTTP({
-    schema: schema,
-    graphiql: visual,
-  })
-);
 app.use("/", textRoutes);
 
 app.use((req, res, next) => {
