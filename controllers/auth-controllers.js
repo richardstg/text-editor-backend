@@ -6,7 +6,6 @@ const HttpError = require("../models/http-error");
 const User = require("../models/user");
 
 const signup = async (req, res, next) => {
-  console.log("signup...");
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
@@ -82,6 +81,7 @@ const signup = async (req, res, next) => {
 
   res.status(201).json({
     userId: createdUser.id,
+    userEmail: createdUser.email,
     token: token,
     expiresIn: 3600,
   });
@@ -97,7 +97,7 @@ const login = async (req, res, next) => {
   } catch (err) {
     const error = new HttpError(
       "Logging in failed, please try again later.",
-      500
+      501
     );
     return next(error);
   }
@@ -146,8 +146,9 @@ const login = async (req, res, next) => {
     return next(error);
   }
 
-  res.json({
+  res.status(200).json({
     userId: existingUser.id,
+    userEmail: existingUser.email,
     token: token,
     expiresIn: 3600,
   });

@@ -52,7 +52,7 @@ const getText = async (req, res, next) => {
 };
 
 const addText = async (req, res, next) => {
-  const { name, content } = req.body;
+  const { name, content, code } = req.body;
   const creator = req.userData.userId;
   const created = new Date();
   const createdText = new Text({
@@ -60,6 +60,7 @@ const addText = async (req, res, next) => {
     content,
     created,
     creator,
+    code,
   });
 
   // Get the user that created the text
@@ -68,10 +69,7 @@ const addText = async (req, res, next) => {
   try {
     user = await User.findById(creator);
   } catch (err) {
-    const error = new HttpError(
-      "Creating text post failed, please try again.",
-      500
-    );
+    const error = new HttpError("Creating text failed, please try again.", 500);
     return next(error);
   }
 
@@ -84,7 +82,7 @@ const addText = async (req, res, next) => {
     const sess = await mongoose.startSession();
 
     sess.startTransaction();
-
+    // console.log(createdText.id);
     await createdText.save({ session: sess });
     user.texts.push(createdText.id);
     await user.save({ session: sess });
@@ -100,6 +98,7 @@ const addText = async (req, res, next) => {
     name: createdText.name,
     content: createdText.content,
     creator: createdText.creator,
+    code: createdText.code,
   });
 };
 
@@ -125,7 +124,12 @@ const updateText = async (req, res, next) => {
     return next(error);
   }
 
-  if (text.creator.toString() !== creator.toString()) {
+  if (
+    !(
+      text.creator.toString() === creator.toString() ||
+      text.authorized.includes(req.userData.email)
+    )
+  ) {
     const error = new HttpError(
       "You are not allowed to update this text.",
       500

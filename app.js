@@ -5,12 +5,14 @@ const mongoose = require("mongoose");
 const HttpError = require("./models/http-error");
 const textRoutes = require("./routes/text-routes");
 const authRoutes = require("./routes/auth-routes");
-
+const commentRoutes = require("./routes/comment-routes");
+const inviteRoutes = require("./routes/invite-routes");
 const checkAuth = require("./middleware/check-auth");
 // const UserType = require("./graphql/user.js");
+const pdf = require("html-pdf");
+const pdfTemplate = require("./documents");
 
 // GraphQL setup
-// const visual = true;
 const visual = false;
 const { graphqlHTTP } = require("express-graphql");
 const { GraphQLSchema } = require("graphql");
@@ -31,19 +33,20 @@ if (process.env.NODE_ENV === "test") {
 
 const app = express();
 
-const httpServer = require("http").createServer(app);
-const io = require("socket.io")(httpServer, {
-  cors: {
-    // origin: "http://localhost:3000",
-    origin: "*",
-    methods: ["GET", "POST"],
-  },
-});
-global._io = io;
+/* Socket */
+// const httpServer = require("http").createServer(app);
+// const io = require("socket.io")(httpServer, {
+//   cors: {
+//     // origin: "http://localhost:3000",
+//     origin: "*",
+//     methods: ["GET", "POST"],
+//   },
+// });
+// global._io = io;
 
-io.sockets.on("connection", function (socket) {
-  console.log("a user is connected.");
-});
+// io.sockets.on("connection", function (socket) {
+//   console.log("a user is connected.");
+// });
 
 app.use(cors());
 app.use(express.json());
@@ -55,14 +58,37 @@ if (process.env.NODE_ENV !== "test") {
 }
 
 app.use("/auth", authRoutes);
-// app.use(checkAuth);
-app.use(
-  "/graphql",
-  graphqlHTTP({
-    schema: schema,
-    graphiql: visual,
-  })
-);
+app.use(checkAuth);
+// app.use(
+//   "/graphql",
+//   graphqlHTTP({
+//     schema: schema,
+//     graphiql: visual,
+//   })
+// );
+app.post("/create-pdf", (req, res) => {
+  pdf
+    .create(pdfTemplate({ ...req.body, email: req.userData.email }))
+    .toStream((err, pdfStream) => {
+      if (err) {
+        // handle error and return a error response code
+        next(err);
+      } else {
+        // send a status code of 200 OK
+        res.statusCode = 200;
+
+        // once done reading end the response
+        pdfStream.on("end", () => {
+          // done reading
+          return res.end();
+        });
+        // pipe the contents of the PDF directly to the response
+        pdfStream.pipe(res);
+      }
+    });
+});
+app.use("/comment", commentRoutes);
+app.use("/invite", inviteRoutes);
 app.use("/", textRoutes);
 
 app.use((req, res, next) => {
@@ -84,10 +110,8 @@ mongoose
     { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }
   )
   .then(() => {
-    httpServer.listen(process.env.PORT || 1337, function () {
-      console.log(
-        "Socket server is listening on port " + (process.env.PORT || 1337)
-      );
+    app.listen(process.env.PORT || 1337, function () {
+      console.log("Server is listening on port " + (process.env.PORT || 1337));
     });
   })
   .catch((err) => {
@@ -95,4 +119,4 @@ mongoose
   });
 
 exports.app = app;
-exports.io = io;
+// exports.io = io;

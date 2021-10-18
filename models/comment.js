@@ -3,14 +3,13 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const textSchema = new Schema({
-  name: { type: String, required: true },
+const commentSchema = new Schema({
+  row: { type: Number, required: true },
   content: { type: String, required: true },
-  created: { type: Date, required: true, trim: true },
+  text: { type: mongoose.Types.ObjectId, required: true, ref: "Text" },
   creator: { type: mongoose.Types.ObjectId, required: true, ref: "User" },
-  comments: [{ type: mongoose.Types.ObjectId, required: true, ref: "Comment" }],
+  created: { type: Date, required: true, trim: true },
   authorized: [{ type: String, required: true }],
-  code: { type: Boolean, required: true },
 });
 
-module.exports = mongoose.model("Text", textSchema);
+module.exports = mongoose.model("Comment", commentSchema);
