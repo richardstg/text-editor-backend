@@ -33,18 +33,18 @@ describe("Comments", () => {
       });
   });
 
-  describe("REJECTED WHEN NO TOKEN", () => {
-    it("403 FAIL", (done) => {
-      chai
-        .request(server)
-        .get("/comment")
-        .end((err, res) => {
-          if (err) done(err);
-          res.should.have.status(403);
-          done();
-        });
-    });
-  });
+  // describe("REJECTED WHEN NO TOKEN", () => {
+  //   it("403 FAIL", (done) => {
+  //     chai
+  //       .request(server)
+  //       .get("/comment")
+  //       .end((err, res) => {
+  //         if (err) done(err);
+  //         res.should.have.status(403);
+  //         done();
+  //       });
+  //   });
+  // });
 
   describe("GET /", () => {
     it("200 GET ALL COMMENTS FOR TEXT", (done) => {

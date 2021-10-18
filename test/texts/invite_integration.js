@@ -26,18 +26,18 @@ describe("Invite", () => {
       });
   });
 
-  describe("REJECTED WHEN NO TOKEN", () => {
-    it("403 FAIL", (done) => {
-      chai
-        .request(server)
-        .get("/invite")
-        .end((err, res) => {
-          if (err) done(err);
-          res.should.have.status(403);
-          done();
-        });
-    });
-  });
+  // describe("REJECTED WHEN NO TOKEN", () => {
+  //   it("403 FAIL", (done) => {
+  //     chai
+  //       .request(server)
+  //       .get("/invite")
+  //       .end((err, res) => {
+  //         if (err) done(err);
+  //         res.should.have.status(403);
+  //         done();
+  //       });
+  //   });
+  // });
 
   describe("POST /", () => {
     it("200 SEND INVITE", (done) => {
