@@ -7,10 +7,11 @@ const textRoutes = require("./routes/text-routes");
 const authRoutes = require("./routes/auth-routes");
 const commentRoutes = require("./routes/comment-routes");
 const inviteRoutes = require("./routes/invite-routes");
+const pdfRoutes = require("./routes/pdf-routes");
 const checkAuth = require("./middleware/check-auth");
 // const UserType = require("./graphql/user.js");
-const pdf = require("html-pdf");
-const pdfTemplate = require("./documents");
+// const pdf = require("html-pdf");
+// const pdfTemplate = require("./documents");
 
 // GraphQL setup
 const visual = false;
@@ -66,27 +67,7 @@ app.use(checkAuth);
 //     graphiql: visual,
 //   })
 // );
-app.post("/create-pdf", (req, res) => {
-  pdf
-    .create(pdfTemplate({ ...req.body, email: req.userData.email }))
-    .toStream((err, pdfStream) => {
-      if (err) {
-        // handle error and return a error response code
-        next(err);
-      } else {
-        // send a status code of 200 OK
-        res.statusCode = 200;
-
-        // once done reading end the response
-        pdfStream.on("end", () => {
-          // done reading
-          return res.end();
-        });
-        // pipe the contents of the PDF directly to the response
-        pdfStream.pipe(res);
-      }
-    });
-});
+app.use("/create-pdf", pdfRoutes);
 app.use("/comment", commentRoutes);
 app.use("/invite", inviteRoutes);
 app.use("/", textRoutes);

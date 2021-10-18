@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 
 let token;
 
-describe("Invite", () => {
+describe("Create PDF", () => {
   beforeEach((done) => {
     chai
       .request(server)
@@ -27,36 +27,20 @@ describe("Invite", () => {
   });
 
   describe("POST /", () => {
-    it("200 SEND INVITE", (done) => {
+    it("200 CREATE PDF", (done) => {
       chai
         .request(server)
-        .post("/invite")
+        .post("/create-pdf")
         .set("content-type", "application/json")
         .set({ Authorization: `Bearer ${token}` })
         .send({
-          email: "richard.stegersjo@gmail.com",
-          textId: "616bd342975b0e3794c8cf26",
+          name: "Title of the document",
+          content: "PFD content",
         })
         .end((err, res) => {
           if (err) done(err);
           res.should.have.status(200);
-          res.body.should.be.an("object");
-          done();
-        });
-    });
-    it("500 SEND INVITE TEXT DOES NOT EXIST", (done) => {
-      chai
-        .request(server)
-        .post("/invite")
-        .set("content-type", "application/json")
-        .set({ Authorization: `Bearer ${token}` })
-        .send({
-          email: "richard.stegersjo@gmail.com",
-          textId: "616ad1485b44d20d7",
-        })
-        .end((err, res) => {
-          if (err) done(err);
-          res.should.have.status(500);
+          // res.body.should.be.an("object");
           done();
         });
     });
