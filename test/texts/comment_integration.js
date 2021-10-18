@@ -16,6 +16,9 @@ chai.use(chaiHttp);
 let token;
 let commentDeleteId;
 
+let tokenAdd;
+let tokenDelete;
+
 describe("Comments", () => {
   beforeEach((done) => {
     chai
@@ -85,16 +88,31 @@ describe("Comments", () => {
   });
 
   describe("POST /", () => {
+    beforeEach((done) => {
+      chai
+        .request(server)
+        .post("/auth/login")
+        .send({
+          email: "test_2@test.com",
+          password: "richard",
+        })
+        .end((err, res) => {
+          if (err) done(err);
+          tokenAdd = res.body.token;
+          res.should.have.status(200);
+          done();
+        });
+    });
     it("200 ADD A NEW COMMENT", (done) => {
       chai
         .request(server)
         .post("/comment")
         .set("content-type", "application/json")
-        .set({ Authorization: `Bearer ${token}` })
+        .set({ Authorization: `Bearer ${tokenAdd}` })
         .send({
           row: "1",
           content: "Adding a test comment...",
-          textId: "616b3560543851487ce503bd",
+          textId: "616d5e1e05113f14cafce437",
         })
         .end((err, res) => {
           if (err) done(err);
@@ -108,7 +126,7 @@ describe("Comments", () => {
         .request(server)
         .post("/comment")
         .set("content-type", "application/json")
-        .set({ Authorization: `Bearer ${token}` })
+        .set({ Authorization: `Bearer ${tokenAdd}` })
         .send({
           row: "row",
           content: "Adding a test comment...",
@@ -126,11 +144,11 @@ describe("Comments", () => {
         .request(server)
         .post("/comment")
         .set("content-type", "application/json")
-        .set({ Authorization: `Bearer ${token}` })
+        .set({ Authorization: `Bearer ${tokenAdd}` })
         .send({
           row: "1",
           content: "Adding a test comment...",
-          textId: "616b367d543851487ce503c0",
+          textId: "616bd342975b0e3794c8cf26",
         })
         .end((err, res) => {
           if (err) done(err);
@@ -144,7 +162,7 @@ describe("Comments", () => {
         .request(server)
         .post("/comment")
         .set("content-type", "application/json")
-        .set({ Authorization: `Bearer ${token}` })
+        .set({ Authorization: `Bearer ${tokenAdd}` })
         .send({
           row: "1",
           content: "Adding a test comment...",
@@ -242,7 +260,7 @@ describe("Comments", () => {
         })
         .end((err, res) => {
           if (err) done(err);
-          token = res.body.token;
+          tokenDelete = res.body.token;
           res.should.have.status(200);
           done();
         });
@@ -252,7 +270,7 @@ describe("Comments", () => {
         .request(server)
         .post("/comment")
         .set("content-type", "application/json")
-        .set({ Authorization: `Bearer ${token}` })
+        .set({ Authorization: `Bearer ${tokenDelete}` })
         .send({
           row: "1",
           content: "Adding a test comment...",
@@ -271,7 +289,7 @@ describe("Comments", () => {
         .request(server)
         .delete("/comment")
         .set("content-type", "application/json")
-        .set({ Authorization: `Bearer ${token}` })
+        .set({ Authorization: `Bearer ${tokenDelete}` })
         .send({
           id: commentDeleteId,
         })
@@ -286,7 +304,7 @@ describe("Comments", () => {
         .request(server)
         .delete("/comment")
         .set("content-type", "application/json")
-        .set({ Authorization: `Bearer ${token}` })
+        .set({ Authorization: `Bearer ${tokenDelete}` })
         .send({
           id: "616adac93056058e511",
         })
@@ -301,7 +319,7 @@ describe("Comments", () => {
         .request(server)
         .delete("/comment")
         .set("content-type", "application/json")
-        .set({ Authorization: `Bearer ${token}` })
+        .set({ Authorization: `Bearer ${tokenDelete}` })
         .send({
           id: "616b368c543851487ce503c1",
         })
