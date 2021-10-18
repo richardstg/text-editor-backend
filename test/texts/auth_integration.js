@@ -60,29 +60,29 @@ describe("Auth", () => {
   });
 
   describe("POST /signup", () => {
-    it("201 SIGNUP SUCCESS", (done) => {
-      chai
-        .request(server)
-        .post("/auth/signup")
-        .send({
-          email: "signup@test.com",
-          password: "richard",
-        })
-        .end((err, res) => {
-          if (err) done(err);
-          userId = res.body.userId;
-          res.should.have.status(201);
-          User.findById(userId)
-            .then((user) => {
-              user.remove();
-              done();
-            })
-            .catch((err) => {
-              console.log(err);
-              done();
-            });
-        });
-    });
+    // it("201 SIGNUP SUCCESS", (done) => {
+    //   chai
+    //     .request(server)
+    //     .post("/auth/signup")
+    //     .send({
+    //       email: "signup@test.com",
+    //       password: "richard",
+    //     })
+    //     .end((err, res) => {
+    //       if (err) done(err);
+    //       userId = res.body.userId;
+    //       res.should.have.status(201);
+    //       User.findById(userId)
+    //         .then((user) => {
+    //           user.remove();
+    //           done();
+    //         })
+    //         .catch((err) => {
+    //           console.log(err);
+    //           done();
+    //         });
+    //     });
+    // });
     it("422 SIGNUP FAIL USER EXISTS", (done) => {
       chai
         .request(server)
