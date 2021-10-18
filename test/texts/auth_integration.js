@@ -65,7 +65,7 @@ describe("Auth", () => {
         .request(server)
         .post("/auth/signup")
         .send({
-          email: "test_user_2@test.com",
+          email: "signup@test.com",
           password: "richard",
         })
         .end((err, res) => {
