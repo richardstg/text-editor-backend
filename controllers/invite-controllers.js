@@ -4,11 +4,11 @@ const User = require("../models/user");
 // const Comment = require("../models/user");
 const mongoose = require("mongoose");
 const sgMail = require("@sendgrid/mail");
-const conf = require("../config.json");
 
-const EMAIL_KEY = conf.EMAIL_KEY;
-
-sgMail.setApiKey(EMAIL_KEY);
+// const EMAIL_KEY = process.env.EMAIL_KEY;
+sgMail.setApiKey(
+  "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"
+);
 
 // const FRONTEND_URL = "http://localhost:3000";
 const FRONTEND_URL = "https://www.student.bth.se/~rist19/editor/";
