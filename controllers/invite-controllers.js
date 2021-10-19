@@ -11,7 +11,7 @@ sgMail.setApiKey(
 );
 
 // const FRONTEND_URL = "http://localhost:3000";
-const FRONTEND_URL = "https://www.student.bth.se/~rist19/editor/";
+const FRONTEND_URL = "https://www.student.bth.se/~rist19/editor";
 
 const sendInvite = async (req, res, next) => {
   const { textId, email } = req.body;
