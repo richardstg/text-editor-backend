@@ -3,15 +3,9 @@ process.env.NODE_ENV = "test";
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const { app: server } = require("../../app.js");
-const Comment = require("../../models/comment");
 
 chai.should();
 chai.use(chaiHttp);
-
-// let defaultUser = {
-//   name: "test@test.com",
-//   password: "richard",
-// };
 
 let token;
 let commentDeleteId;
@@ -35,19 +29,6 @@ describe("Comments", () => {
         done();
       });
   });
-
-  // describe("REJECTED WHEN NO TOKEN", () => {
-  //   it("403 FAIL", (done) => {
-  //     chai
-  //       .request(server)
-  //       .get("/comment")
-  //       .end((err, res) => {
-  //         if (err) done(err);
-  //         res.should.have.status(403);
-  //         done();
-  //       });
-  //   });
-  // });
 
   describe("GET /", () => {
     it("200 GET ALL COMMENTS FOR TEXT", (done) => {

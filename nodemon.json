@@ -4,7 +4,7 @@
     "DB_PASSWORD": "1234",
     "DB_NAME": "text-editor",
     "JWT_KEY": "super_secret",
-    "EMAIL_KEY":"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",
+    "EMAIL_KEY":"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",
     "FRONTEND_URL":"http://localhost:3000"
   }
 }

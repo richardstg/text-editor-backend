@@ -1,13 +1,11 @@
 const HttpError = require("../models/http-error");
 const Text = require("../models/text");
-const User = require("../models/user");
-// const Comment = require("../models/user");
 const mongoose = require("mongoose");
 const sgMail = require("@sendgrid/mail");
 
 // const EMAIL_KEY = process.env.EMAIL_KEY;
 sgMail.setApiKey(
-  "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"
+  "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"
 );
 
 // const FRONTEND_URL = "http://localhost:3000";
@@ -58,8 +56,8 @@ const sendInvite = async (req, res, next) => {
   const message = {
     to: email,
     from: "rist19@student.bth.se",
-    subject: "Invite to edit text",
-    html: `<div><h1>Invite to edit text</h1><a href='${FRONTEND_URL}/invite?email=${email}&text=${textId}'>Click here to register and edit</a><div>`,
+    subject: "Invitation to Text Editor",
+    html: `<div><h1>Invitation to Text Editor</h1><p>You have been invited to edit a text in the Text Editor.<br /><a href='${FRONTEND_URL}/#/invite?email=${email}&text=${textId}'>Click here to register and edit</a></p><div>`,
   };
 
   try {
