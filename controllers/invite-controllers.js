@@ -3,10 +3,15 @@ const Text = require("../models/text");
 const mongoose = require("mongoose");
 const sgMail = require("@sendgrid/mail");
 
-// const EMAIL_KEY = process.env.EMAIL_KEY;
-sgMail.setApiKey(
-  "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"
-);
+// Check if test
+if (process.env.NODE_ENV === "test") {
+  const dotenv = require("dotenv");
+  if (dotenv) {
+    dotenv.config();
+  }
+}
+
+sgMail.setApiKey(process.env.EMAIL_KEY);
 
 // const FRONTEND_URL = "http://localhost:3000";
 const FRONTEND_URL = "https://www.student.bth.se/~rist19/editor";

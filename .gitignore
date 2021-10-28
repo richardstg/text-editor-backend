@@ -26,7 +26,8 @@ config.json
 
 
 
-
+# nodemon
+nodemon.json
 
 # Logs
 logs
